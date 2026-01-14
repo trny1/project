@@ -19,7 +19,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Links */
 a {
   font-weight: 500;
   color: var(--accent);
@@ -30,7 +29,6 @@ a:hover {
   color: var(--accent-hover);
 }
 
-/* Layout */
 body {
   margin: 0;
   min-width: 320px;
@@ -92,7 +90,6 @@ button:focus-visible {
     0 0 0 3px rgba(100,108,255,0.4);
 }
 
-/* Light mode */
 @media (prefers-color-scheme: light) {
   :root {
     color: var(--text-light);

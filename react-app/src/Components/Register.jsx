@@ -3,21 +3,21 @@ import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 function Register() {
-  const [felhasznaloNev, setFelhasznaloNev] = useState("");
-  const [jelszo, setJelszo] = useState("");
-  const [hiba, setHiba] = useState("");
-  const [toltes, setToltes] = useState(false); 
+  const [UserName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); 
 
   const navigate = useNavigate();
 
-  const regisztracio = async () => {
-    if (!felhasznaloNev || !jelszo) {
-      setHiba("Minden mező kitöltése kötelező!");
+  const register = async () => {
+    if (!UserName || !password) {
+      setError("All fields are required!");
       return;
     }
 
-    setHiba("");
-    setToltes(true);
+    setError("");
+    setLoading(true);
 
     try {
 
@@ -26,53 +26,53 @@ function Register() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ felhasznaloNev, jelszo }),
+        body: JSON.stringify({ UserName, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         navigate("/", {
-          state: { uzenet: "Sikeres regisztráció ✅" }
+          state: { message: "Successful registration" }
         });
       } else {
-        setHiba(data.message || "Hiba történt a regisztráció során.");
+        setError(data.message || "Failed to register.");
       }
     } catch (error) {
-      setHiba("Nem sikerült kapcsolódni a szerverhez.");
+      setError("Failed to connect to the server.");
     } finally {
-      setToltes(false);
+      setLoading(false);
     }
   };
 
   return (
     <div className="register">
-      <h2>Regisztráció</h2>
+      <h2>Registration</h2>
 
-      {hiba && <p className="hiba" style={{color: "red", textAlign:"center"}}>{hiba}</p>}
+      {error && <p className="error" style={{color: "red", textAlign:"center"}}>{error}</p>}
 
       <input
         type="text"
-        placeholder="Felhasználónév"
-        value={felhasznaloNev}
-        onChange={(e) => setFelhasznaloNev(e.target.value)}
-        disabled={toltes}
+        placeholder="Username"
+        value={UserName}
+        onChange={(e) => setUserName(e.target.value)}
+        disabled={loading}
       />
 
       <input
         type="password"
-        placeholder="Jelszó"
-        value={jelszo}
-        onChange={(e) => setJelszo(e.target.value)}
-        disabled={toltes}
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        disabled={loading}
       />
 
       <button 
-        onClick={regisztracio} 
+        onClick={register} 
         style={{marginTop:"10px"}}
-        disabled={toltes}
+        disabled={loading}
       >
-        {toltes ? "Folyamatban..." : "Regisztráció"}
+        {loading ? "Loading..." : "Register"}
       </button>
     </div>
   );

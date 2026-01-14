@@ -10,7 +10,10 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const { Pool } = pg;
 
-console.log("Adatbázis URL betöltve:", process.env.DATABASE_URL ? "IGEN ✅" : "NEM ❌");
+console.log(
+  'Database URL loaded:',
+  process.env.DATABASE_URL ? 'YES' : 'NO'
+);
 
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,

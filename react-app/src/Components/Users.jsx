@@ -11,9 +11,9 @@ function Users() {
 
     return(
         <div className="users">
-            <h2>Fiók kezelés</h2>
-            <button onClick={() => navigate("/messages")} style={style1}>Üzenetek</button>
-            <button onClick={() => navigate("/login")} style={style1}>Kilépés</button>
+            <h2>Manage Account</h2>
+            <button onClick={() => navigate("/messages")} style={style1}>Messages</button>
+            <button onClick={() => navigate("/login")} style={style1}>Logout</button>
 
         </div>
     )

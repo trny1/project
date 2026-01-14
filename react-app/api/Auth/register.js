@@ -9,9 +9,13 @@ export default async function handler(req, res) {
   const { felhasznaloNev, jelszo } = req.body;
 
   try {
-    const userCheck = await pool.query('SELECT * FROM users WHERE username = $1', [felhasznaloNev]);
+    const userCheck = await pool.query(
+      'SELECT * FROM users WHERE username = $1',
+      [felhasznaloNev]
+    );
+
     if (userCheck.rows.length > 0) {
-      return res.status(400).json({ message: "Ez a felhasználónév már foglalt!" });
+      return res.status(400).json({ message: 'This username is already taken!' });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -22,9 +26,10 @@ export default async function handler(req, res) {
       [felhasznaloNev, hashedPassword]
     );
 
-    return res.status(201).json({ message: "Sikeres regisztráció!" });
+    return res.status(201).json({ message: 'Registration successful!' });
+
   } catch (err) {
-    console.error("Regisztrációs hiba:", err);
-    return res.status(500).json({ message: "Szerver hiba történt a mentéskor." });
+    console.error('Registration error:', err);
+    return res.status(500).json({ message: 'Server error occurred while saving.' });
   }
 }

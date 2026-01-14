@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "../App.css";
 
 function Navbar() {
-  const [nyitva, setNyitva] = useState(false);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -15,9 +15,9 @@ function Navbar() {
     return null;
   }
 
-  const kilepes = () => {
+  const exit = () => {
     localStorage.clear();
-    setNyitva(false);
+    setOpen(false);
     navigate("/login");
   };
 
@@ -26,22 +26,22 @@ function Navbar() {
   return (
     <div className="navbar-wrapper">
     <nav className="navbar">
-      <button className="menu-gomb" onClick={() => setNyitva(!nyitva)}>
+      <button className="menu-button" onClick={() => setOpen(!open)}>
         ☰
       </button>
-      {nyitva && (
+      {open && (
         <div className="dropdown-menu">
            {isRegisterPage ? (
-              <button onClick={() => { navigate("/login"); setNyitva(false); }}>
-                Belépés
+              <button onClick={() => { navigate("/login"); setOpen(false); }}>
+                Log in
               </button>
             ) : (
               <>
-                <button onClick={() => { navigate("/users"); setNyitva(false); }}>
-                  Fiók kezelés
+                <button onClick={() => { navigate("/users"); setOpen(false); }}>
+                  Manage Account
                 </button>
-                <button style={{marginBottom:"10px"}} onClick={kilepes}>
-                  Kilépés
+                <button style={{marginBottom:"10px"}} onClick={exit}>
+                  Log out
                 </button>
               </>
             )}
