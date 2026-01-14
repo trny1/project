@@ -6,12 +6,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const { felhasznaloNev, jelszo } = req.body;
+  const { UserName, password } = req.body;
 
   try {
     const userCheck = await pool.query(
       'SELECT * FROM users WHERE username = $1',
-      [felhasznaloNev]
+      [UserName]
     );
 
     if (userCheck.rows.length > 0) {
@@ -19,11 +19,11 @@ export default async function handler(req, res) {
     }
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(jelszo, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     await pool.query(
       'INSERT INTO users (username, password) VALUES ($1, $2)',
-      [felhasznaloNev, hashedPassword]
+      [UserName, hashedPassword]
     );
 
     return res.status(201).json({ message: 'Registration successful!' });
